@@ -1,0 +1,10 @@
+[configuration]
+
+entry_symbol = "plugin_library_init"
+compatibility_minimum = 4.2
+android_aar_plugin = true
+
+[libraries]
+
+android.debug.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/.bin/debug/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"
+android.release.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/.bin/release/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"

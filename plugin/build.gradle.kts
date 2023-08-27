@@ -6,10 +6,10 @@ plugins {
 }
 
 // TODO: Update value to your plugin's name.
-val pluginName = "GodotAndroidPluginTemplate"
+val pluginName = "GDExtensionAndroidPluginTemplate"
 
 // TODO: Update value to match your plugin's package name.
-val pluginPackageName = "org.godotengine.plugin.android.template"
+val pluginPackageName = "org.godotengine.plugin.android.gdextension.template"
 
 android {
     namespace = pluginPackageName
@@ -22,10 +22,25 @@ android {
     defaultConfig {
         minSdk = 21
 
+        externalNativeBuild {
+            cmake {
+                cppFlags("")
+            }
+        }
+        ndk {
+            abiFilters.add("arm64-v8a")
+        }
+
         manifestPlaceholders["godotPluginName"] = pluginName
         manifestPlaceholders["godotPluginPackageName"] = pluginPackageName
         buildConfigField("String", "GODOT_PLUGIN_NAME", "\"${pluginName}\"")
         setProperty("archivesBaseName", pluginName)
+    }
+    externalNativeBuild {
+        cmake {
+            path("CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     compileOptions {
@@ -70,6 +85,18 @@ val copyReleaseAARToAddons by tasks.registering(Copy::class) {
     into("src/main/assets/addons/$pluginName/.bin/release")
 }
 
+val copyDebugSharedLibs by tasks.registering(Copy::class) {
+    description = "Copies the generated debug .so shared library to the plugin's addons directory"
+    from("build/intermediates/cmake/debug/obj")
+    into("src/main/assets/addons/$pluginName/.bin/debug")
+}
+
+val copyReleaseSharedLibs by tasks.registering(Copy::class) {
+    description = "Copies the generated release .so shared library to the plugin's addons directory"
+    from("build/intermediates/cmake/release/obj")
+    into("src/main/assets/addons/$pluginName/.bin/release")
+}
+
 val cleanDemoAddons by tasks.registering(Delete::class) {
     delete("demo/addons/$pluginName")
 }
@@ -80,6 +107,8 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     dependsOn(cleanDemoAddons)
     dependsOn(copyDebugAARToAddons)
     dependsOn(copyReleaseAARToAddons)
+    dependsOn(copyDebugSharedLibs)
+    dependsOn(copyReleaseSharedLibs)
 
     from("src/main/assets/addons/$pluginName")
     into("demo/addons/$pluginName")
@@ -89,8 +118,6 @@ tasks.named("preBuild").dependsOn(copyExportScriptsTemplate)
 
 tasks.named("assemble").configure {
     dependsOn(copyExportScriptsTemplate)
-    finalizedBy(copyDebugAARToAddons)
-    finalizedBy(copyReleaseAARToAddons)
     finalizedBy(copyAddonsToDemo)
 }
 

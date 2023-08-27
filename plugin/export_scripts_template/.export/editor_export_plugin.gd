@@ -2,7 +2,7 @@
 extends EditorExportPlugin
 
 # TODO: Update to your plugin's name.
-var _plugin_name = "GodotAndroidPluginTemplate"
+var _plugin_name = "GDExtensionAndroidPluginTemplate"
 
 func _supports_platform(platform):
 	if platform is EditorExportPlatformAndroid:
