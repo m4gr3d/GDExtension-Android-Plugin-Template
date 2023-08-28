@@ -20,7 +20,8 @@ This repository serves as a quickstart template for building a GDExtension Andro
 developing Godot Android plugins. You can install the latest version from https://developer.
 android.com/studio.
 
-To use this template, log in to github and click the green "Use this template" button at the top of the repository page.
+To use this template, log in to github and click the green "Use this template" button at the top 
+of the repository page.
 This will let you create a copy of this repository with a clean git history.
 
 Once the project is cloned to your local machine, run the following command in the project root 
@@ -70,6 +71,9 @@ overview of the minimum set of modifications needed:
     * Under the `[libraries]` section, update the names and paths to the generated Android shared 
       libraries
     * Add any other platform your plugin intends to support
+      * **Note:** If your plugin supports platforms other than Android, update the 
+        `gdextensionSupportsNonAndroidPlatforms` flag in [`plugin/build.gradle.kts`](plugin/build.gradle.kts)
+        to `true`. Set it to `false` otherwise
 
 ### Building the configured Android plugin
 - In a terminal window, navigate to the project's root directory and run the following command:
@@ -90,11 +94,47 @@ plugin
   your plugin and its methods
 - Connect an Android device to your machine and run the demo on it
 
-**Note:**
+#### Tips
 
-It is recommended that the gdextension's native binaries are compiled not just for Android, but 
-also for the OS in which the developer / users intend to run the Godot Editor. Not doing so may 
-prevent the developer / users from writing code that accesses the plugin.
+##### Simplify access to the exposed Java / Kotlin APIs
+
+To make it easier to access the exposed Java / Kotlin APIs in the Godot Editor, it's recommended to
+provide one (or multiple) gdscript wrapper class for your plugin users to interface with.
+
+Those wrapper classes should be included in the `plugin/export_scripts_template/interface`
+directory (create the directory if it doesn't exist).
+
+For example:
+
+```
+class_name PluginInterface extends Object
+
+## Interface used to access the functionality provided by this plugin
+
+var _plugin_name = "GDExtensionAndroidPluginTemplate"
+var _plugin_singleton
+
+func _init():
+	if Engine.has_singleton(_plugin_name):
+		_plugin_singleton = Engine.get_singleton(_plugin_name)
+	else:
+		printerr("Initialization error: unable to access the java logic")
+
+## Print a 'Hello World' message to the logcat.
+func helloWorld():
+	if _plugin_singleton:
+		_plugin_singleton.helloWorld()
+	else:
+		printerr("Initialization error")
+
+```
+
+##### Support using the gdextension functionality in the Godot Editor
+
+If planning to use the gdextension functionality in the Godot Editor, it is recommended that the 
+gdextension's native binaries are compiled not just for Android, but also for the OS onto which 
+the developer / users intend to run the Godot Editor. Not doing so may prevent the developer / 
+users from writing code that accesses the plugin from within the Godot Editor.
 
 This may involve creating dummy plugins for the host OS just so the API is published to the 
 editor. You can use the [godot-cpp-template](https://github.com/godotengine/godot-cpp-template) 

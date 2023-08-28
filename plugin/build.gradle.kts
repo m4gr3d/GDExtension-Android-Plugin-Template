@@ -11,6 +11,14 @@ val pluginName = "GDExtensionAndroidPluginTemplate"
 // TODO: Update value to match your plugin's package name.
 val pluginPackageName = "org.godotengine.plugin.android.gdextension.template"
 
+/**
+ * Flag used to specify whether the `plugin.gdextension` config file has libraries for platforms
+ * other than Android and can be used by the Godot Editor
+ *
+ * TODO: Update the flag value based on your plugin's configuration
+ */
+val gdextensionSupportsNonAndroidPlatforms = false
+
 android {
     namespace = pluginPackageName
     compileSdk = 33
@@ -111,6 +119,9 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     dependsOn(copyReleaseSharedLibs)
 
     from("src/main/assets/addons/$pluginName")
+    if (!gdextensionSupportsNonAndroidPlatforms) {
+        exclude("plugin.gdextension")
+    }
     into("demo/addons/$pluginName")
 }
 
