@@ -14,6 +14,6 @@ offset_left = 40.0
 offset_top = 250.0
 offset_right = 320.0
 offset_bottom = 312.0
-text = "Hello World"
+text = "Hello GDExtension World"
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

@@ -13,6 +13,6 @@
 
 extern "C" {
     JNIEXPORT void JNICALL JNI_METHOD(helloWorld)(JNIEnv *env, jobject) {
-        godot::UtilityFunctions::print("Hello World!");
+        godot::UtilityFunctions::print("Hello GDExtension World!");
     }
 };
