@@ -43,8 +43,7 @@ When the command is completed, you should have static libraries stored in `godot
 will be used for compilation by the plugin.
 
 ### Configuring the template
-After cloning your own copy to your local machine, configure the project as needed. Several 
-`TODO` have been added to the project to help identify where changes are needed; here's an 
+Several `TODO` have been added to the project to help identify where changes are needed; here's an 
 overview of the minimum set of modifications needed:
 * Update the name of the Android plugin. Note that the name should not contain any spaces:
   * Open [`settings.gradle.kts`](settings.gradle.kts) and update the value for `rootProject.name`
@@ -68,7 +67,8 @@ overview of the minimum set of modifications needed:
     * Update the `author` field
     * Update the `version` field
   * Open [`plugin/export_scripts_template/plugin.gdextension`](plugin/export_scripts_template/plugin.gdextension)
-    * Update the names and paths to the generated Android shared libraries
+    * Under the `[libraries]` section, update the names and paths to the generated Android shared 
+      libraries
     * Add any other platform your plugin intends to support
 
 ### Building the configured Android plugin
@@ -89,3 +89,13 @@ plugin
 - Open [`plugin/demo/main.gd`](plugin/demo/main.gd) and update the logic as needed to reference 
   your plugin and its methods
 - Connect an Android device to your machine and run the demo on it
+
+**Note:**
+
+It is recommended that the gdextension's native binaries are compiled not just for Android, but 
+also for the OS in which the developer / users intend to run the Godot Editor. Not doing so may 
+prevent the developer / users from writing code that accesses the plugin.
+
+This may involve creating dummy plugins for the host OS just so the API is published to the 
+editor. You can use the [godot-cpp-template](https://github.com/godotengine/godot-cpp-template) 
+github template for reference on how to do so.
