@@ -17,8 +17,8 @@ This repository serves as a quickstart template for building a GDExtension Andro
 
 ## Usage
 **Note:** [Android Studio](https://developer.android.com/studio) is the recommended IDE for 
-developing Godot Android plugins. You can install the latest version from https://developer.
-android.com/studio.
+developing Godot Android plugins. 
+You can install the latest version from https://developer.android.com/studio.
 
 To use this template, log in to github and click the green "Use this template" button at the top 
 of the repository page.
@@ -52,7 +52,7 @@ overview of the minimum set of modifications needed:
   * Open [`plugin/CMakeLists.txt`](plugin/CMakeLists.txt) and update the value for the CMake project
   * Open [`plugin/export_scripts_template/plugin.cfg`](plugin/export_scripts_template/plugin.cfg)
     and update the value for `name`
-  * Open [`plugin/export_scripts_template/.export/editor_export_plugin.gd`](plugin/export_scripts_template/.export/editor_export_plugin.gd)
+  * Open [`plugin/export_scripts_template/export_plugin.gd`](plugin/export_scripts_template/export_plugin.gd)
     and update the value for `_plugin_name`
 * Update the package name of the Android plugin:
   * Open [`plugin/build.gradle.kts`](plugin/build.gradle.kts) and update the value for `pluginPackageName`
@@ -99,10 +99,7 @@ plugin
 ##### Simplify access to the exposed Java / Kotlin APIs
 
 To make it easier to access the exposed Java / Kotlin APIs in the Godot Editor, it's recommended to
-provide one (or multiple) gdscript wrapper class for your plugin users to interface with.
-
-Those wrapper classes should be included in the `plugin/export_scripts_template/interface`
-directory (create the directory if it doesn't exist).
+provide one (or multiple) gdscript wrapper class(es) for your plugin users to interface with.
 
 For example:
 
@@ -133,7 +130,7 @@ func helloWorld():
 
 If planning to use the gdextension functionality in the Godot Editor, it is recommended that the 
 gdextension's native binaries are compiled not just for Android, but also for the OS onto which 
-the developer / users intend to run the Godot Editor. Not doing so may prevent the developer / 
+developers / users intend to run the Godot Editor. Not doing so may prevent developers / 
 users from writing code that accesses the plugin from within the Godot Editor.
 
 This may involve creating dummy plugins for the host OS just so the API is published to the 

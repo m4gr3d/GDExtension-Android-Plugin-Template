@@ -6,5 +6,5 @@ android_aar_plugin = true
 
 [libraries]
 
-android.debug.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/.bin/debug/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"
-android.release.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/.bin/release/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"
+android.debug.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/bin/debug/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"
+android.release.arm64 = "res://addons/GDExtensionAndroidPluginTemplate/bin/release/arm64-v8a/libGDExtensionAndroidPluginTemplate.so"
