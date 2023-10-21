@@ -30,19 +30,6 @@ directory to initialize the `godot-cpp` submodule:
 git submodule update --init
 ```
 
-### Building the C++ bindings
-Build the Android C++ bindings using the following commands. To speed up compilation, add `-jN` at 
-the end of the SCons command line where `N` is the number of CPU threads you have on your system.
-The example below uses 4 threads.
-```
-cd godot-cpp
-scons platform=android target=template_debug -j4
-scons platform=android target=template_release -j4
-```
-
-When the command is completed, you should have static libraries stored in `godot-cpp/bin` that 
-will be used for compilation by the plugin.
-
 ### Configuring the template
 Several `TODO` have been added to the project to help identify where changes are needed; here's an 
 overview of the minimum set of modifications needed:
@@ -74,6 +61,19 @@ overview of the minimum set of modifications needed:
       * **Note:** If your plugin supports platforms other than Android, update the 
         `gdextensionSupportsNonAndroidPlatforms` flag in [`plugin/build.gradle.kts`](plugin/build.gradle.kts)
         to `true`. Set it to `false` otherwise
+
+### Building the C++ bindings
+Build the Android C++ bindings using the following commands. To speed up compilation, add `-jN` at
+the end of the SCons command line where `N` is the number of CPU threads you have on your system.
+The example below uses 4 threads.
+```
+cd godot-cpp
+scons platform=android target=template_debug -j4
+scons platform=android target=template_release -j4
+```
+
+When the command is completed, you should have static libraries stored in `godot-cpp/bin` that
+will be used for compilation by the plugin.
 
 ### Building the configured Android plugin
 - In a terminal window, navigate to the project's root directory and run the following command:
