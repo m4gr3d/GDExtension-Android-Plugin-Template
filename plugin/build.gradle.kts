@@ -62,7 +62,7 @@ android {
 
 dependencies {
     // TODO: Update the godot dep when 4.2 is stable
-    implementation("org.godotengine:godot:4.2.0.beta-SNAPSHOT")
+    implementation("org.godotengine:godot:4.2.0.rc-SNAPSHOT")
 }
 
 // BUILD TASKS DEFINITION
@@ -70,12 +70,13 @@ val cleanAssetsAddons by tasks.registering(Copy::class) {
     delete("src/main/assets/addons")
 }
 
-val copyExportScriptsTemplate by tasks.registering(Copy::class) {
-    description = "Copies the export scripts templates to the plugin's addons directory"
+val copyGdExtensionConfigToAssets by tasks.registering(Copy::class) {
+    description = "Copies the gdextension config file to the plugin's assets directory"
 
     dependsOn(cleanAssetsAddons)
 
     from("export_scripts_template")
+    include("plugin.gdextension")
     into("src/main/assets/addons/$pluginName")
 }
 
@@ -116,7 +117,7 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     finalizedBy(copyDebugAARToDemoAddons)
     finalizedBy(copyReleaseAARToDemoAddons)
 
-    from("src/main/assets/addons/$pluginName")
+    from("export_scripts_template")
     if (!gdextensionSupportsNonAndroidPlatforms) {
         exclude("plugin.gdextension")
     } else {
@@ -126,10 +127,10 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     into("demo/addons/$pluginName")
 }
 
-tasks.named("preBuild").dependsOn(copyExportScriptsTemplate)
+tasks.named("preBuild").dependsOn(copyGdExtensionConfigToAssets)
 
 tasks.named("assemble").configure {
-    dependsOn(copyExportScriptsTemplate)
+    dependsOn(copyGdExtensionConfigToAssets)
     finalizedBy(copyAddonsToDemo)
 }
 
