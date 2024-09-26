@@ -32,5 +32,5 @@ class GDExtensionAndroidPlugin(godot: Godot): GodotPlugin(godot) {
      * Print a 'Hello World' message to the logcat.
      */
     @UsedByGodot
-    private external fun helloWorld()
+    external fun helloWorld()
 }
